@@ -1,0 +1,17 @@
+
+.compact-inc.cirru
+.calcit-error.cirru
+
+js-out/
+node_modules/
+dist/
+
+.DS_Store
+
+.yarn/
+
+.copilot-tmp/
+
+.calcit
+.pnp.cjs
+.pnp.loader.mjs
