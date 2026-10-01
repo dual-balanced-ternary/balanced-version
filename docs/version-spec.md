@@ -121,10 +121,18 @@ digit    = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 }
 ```
 
+9.1 页面演示导出使用独立的 schema 标识 balanced-version-demo/1.0.0。它不是生产记录标识 balanced-version/0.1.0；消费者必须按 schema 区分两者。
+
+9.2 演示文档包含 schema（固定字符串）、radix（固定整数 3）、axes（stableFeatures=1、fixes=3、unstableFeatures=7、backwardCompatibility=9 的字符串映射）和 releases（按页面记录顺序排列的数组）。
+
+9.3 每条 releases 记录包含 id（页面内唯一正整数）、action（origin、feature、fix、preview 或 promote）、version（规范 DBT 地址）、features 与 fixes（精确坐标的字符串，整数或分母为 3 的幂的最简分数）、channel（stable 或 preview）、target（preview 的规范目标地址，stable 为 null）、precision（本演示中为 0–3 的整数）、title 与 note（文本）。消费者禁止把 id 当作跨项目的发布 sequence。
+
+9.4 演示格式没有 project、line、compatibility、artifact 或完整事件清单，不能用于自动升级。刷新后 id 会重新开始；导出用于保存页面实验。此标识只定义导出格式，本页面不提供导入功能。
+
 ## 10. 实现与参考
 
 页面使用 BigInt 精确算术；九宫格缩放只用于绘图，不参与比较或发布决策。极细区域在有限屏幕上不可见时，必须保留文字地址与位权。
 
-数学来源：仓库 dual_balanced_ternary.rs 的 src/digit.rs 与 MATHEMATICS.md。规范表述参考 Semantic Versioning 2.0.0 的公共接口、不可变发布与明确比较规则；本提案的数学及版本语义另行定义。
+数学来源：上游 [dual_balanced_ternary.rs](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs) 的 [src/digit.rs](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs/blob/main/src/digit.rs) 与 [MATHEMATICS.md](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs/blob/main/MATHEMATICS.md)。规范表述参考 Semantic Versioning 2.0.0 的公共接口、不可变发布与明确比较规则；本提案的数学及版本语义另行定义。
 
 参考链接：https://semver.org/lang/zh-CN/ ，https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs 。

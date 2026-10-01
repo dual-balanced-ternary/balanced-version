@@ -69,6 +69,15 @@ test('the numerical address cannot replace channel or chronological identity', (
   assert.notEqual(preview.channel,stable.channel);
   const document=releaseDocument(initialReleases());
   assert.doesNotThrow(()=>JSON.stringify(document));
+  assert.equal(document.schema,'balanced-version-demo/1.0.0');
+  assert.equal(document.radix,3);
+  assert.deepEqual(document.axes,{stableFeatures:'1',fixes:'3',unstableFeatures:'7',backwardCompatibility:'9'});
+  const previewExport=releaseDocument([{...preview,id:2,title:'实验',note:'待验证'}]).releases[0];
+  assert.equal(previewExport.channel,'preview');
+  assert.equal(previewExport.action,'preview');
+  assert.equal(previewExport.target,'&1');
+  assert.equal(previewExport.version,'&7');
+  assert.equal(document.releases.at(-1).target,null);
   assert.equal(document.releases.at(-1).features,'7/3');
   assert.equal(document.releases.at(-1).fixes,'4/3');
 });

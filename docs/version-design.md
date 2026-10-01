@@ -1,6 +1,6 @@
 # Balanced Version：二维软件迭代约定
 
-本页面以仓库内 `dual_balanced_ternary.rs` 的 `src/digit.rs` 和 `MATHEMATICS.md` 为数学依据。DBT 每位是两个平衡三进制位，使用洛书编号：
+本页面以上游 [dual_balanced_ternary.rs](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs) 的 [src/digit.rs](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs/blob/main/src/digit.rs) 和 [MATHEMATICS.md](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs/blob/main/MATHEMATICS.md) 为数学依据。DBT 每位是两个平衡三进制位，使用洛书编号：
 
 ```text
 6 1 8

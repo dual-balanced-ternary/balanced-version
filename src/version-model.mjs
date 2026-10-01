@@ -36,7 +36,7 @@ export function initialReleases() {
 
 export function releaseDocument(releases) {
   return {
-    schema: 'balanced-version/v2', axes: { stableFeatures: '1', fixes: '3', unstableFeatures: '7', backwardCompatibility: '9' }, radix: 3,
+    schema: 'balanced-version-demo/1.0.0', axes: { stableFeatures: '1', fixes: '3', unstableFeatures: '7', backwardCompatibility: '9' }, radix: 3,
     releases: releases.map(r => ({ id: r.id, action: r.action, ...serialize(r.value), channel: r.channel, target: r.target ? format(r.target) : null, precision: r.precision, title: r.title, note: r.note })),
   };
 }
