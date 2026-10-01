@@ -12,43 +12,13 @@
       :defs $ {} $ 'comp-container
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
-            let
-                store $ assert-type (reel.schema/read-field reel :store) 'app.types/Store
-                states $ :states store
-                cursor $ &map:get states :cursor
-                state $ assert-type (&map:get states :data) 'app.types/StateData
-              div
-                {} $ :class-name $ str-spaced css/preset css/global css/row
-                textarea $ {}
-                  :value $ :content state
-                  :placeholder |Content
-                  :class-name $ str-spaced css/expand css/textarea
-                  :style $ {} $ :height 320
-                  :on-input $ fn (e d!)
-                    d! cursor $ assoc state :content $ str
-                        get e :value
-                        , .unwrap
-                =< 8 nil
-                div
-                  {} $ :class-name css/expand
-                  <> "|This is some content with `code`"
-                  =< |8px nil
-                  button $ {} (:class-name css/button) (:inner-text |Run)
-                    :on-click $ fn (e d!)
-                      println $ :content state
-                when dev? $ comp-reel (>> states :reel) reel $ {}
+            create-element :balanced-version-app $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
-          :require (respo-ui.css :as css)
-            respo.css :refer $ defstyle
-            respo.core :refer $ defcomp defeffect <> >> div button textarea span input
-            respo.comp.space :refer $ =<
-            reel.comp.reel :refer $ comp-reel
-            reel.schema :as reel-schema
-            app.config :refer $ dev?
+          :require $ respo.core :refer $ defcomp create-element
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'dev? $ %{} 'CodeEntry (:doc |)
