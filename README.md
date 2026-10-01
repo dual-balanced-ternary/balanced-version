@@ -1,8 +1,10 @@
-## Respo workflow with Calcit
+## Balanced Version
 
-> A small Respo web application driven by [Calcit](https://github.com/calcit-lang/calcit)'s JavaScript backend.
+用双平衡三进制表达二维软件迭代：功能增加沿 **1** 方向，Bug 修复沿 **3** 方向，不稳定功能沿 **7** 方向引入，成熟后迁入 **1** 方向。小数位提供 1/3、1/9、1/27 的迭代尺度。
 
-Demo https://repo.calcit-lang.org/respo-calcit-workflow/ .
+页面初始化了六条示例版本记录，提供递归九宫格轨迹、版本生成器、实验版转稳定、数字九宫格、精确解码、复制与 JSON 导出。记录保存在页面内存，刷新会恢复示例。
+
+完整的语法、发布生命周期、兼容性与比较条款见 [0.1.0 规范草案](docs/version-spec.md)。页面提供精确的二维偏序比较及 (F,B) 列表排序。数学与软件版本语义见 [设计约定](docs/version-design.md)。源数学模型参考 [Dual Balanced Ternary](https://github.com/dual-balanced-ternary/dual_balanced_ternary.rs)。版本坐标使用两条轴的偏序比较；channel、目标、记录 ID 与兼容性属于额外元数据，DBT 数值不能独自替代它们。
 
 ### Usages
 
@@ -14,21 +16,24 @@ yarn install --immutable
 caps --strict --ci
 caps verify --toolchain
 
-calcit -w calcit.cirru js
-yarn vite # watching and running on localhost:3000
+calcit calcit.cirru js
+yarn dev # http://127.0.0.1:5173
 ```
 
 To build:
 
 ```bash
 yarn compile
+yarn test
 yarn release
 http-server dist/
 ```
 
 ### Workflow
 
-https://github.com/calcit-lang/respo-calcit-workflow
+https://github.com/dual-balanced-ternary/balanced-version
+
+页面作为 Web Component 由 Respo/Calcit 入口挂载。`src/dbt.mjs` 实现精确的 BigInt 坐标与平衡三进制进位；`src/version-model.mjs` 定义迭代、实验目标和导出约定；`src/version-page.mjs` 渲染页面并处理交互。Snapshot 的修改仍通过 Calcit CLI 完成。
 
 ### COS 静态资源部署实践
 

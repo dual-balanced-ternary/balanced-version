@@ -20,6 +20,7 @@ The source snapshot is `calcit.cirru`. Do not add or restore `compact.cirru`; us
 caps --strict --ci
 yarn install --immutable
 caps verify --toolchain
+yarn test
 calcit calcit.cirru edit format
 git diff --exit-code -- calcit.cirru
 calcit calcit.cirru --check-only
