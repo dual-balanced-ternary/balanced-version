@@ -9,7 +9,7 @@ calcit docs agents --full
 calcit docs read upgrade --full
 calcit query config
 calcit query ns
-calcit query modules
+calcit config modules
 ```
 
 The source snapshot is `calcit.cirru`. Do not add or restore `compact.cirru`; use `calcit edit` and `calcit tree` for snapshot changes, then run `calcit calcit.cirru edit format`.
@@ -23,9 +23,8 @@ caps verify --toolchain
 yarn test
 calcit calcit.cirru edit format
 git diff --exit-code -- calcit.cirru
-calcit calcit.cirru --check-only
-calcit calcit.cirru analyze dynamic-methods --summary-only --format json
-calcit calcit.cirru analyze quality --baseline config/calcit-quality.json
+calcit --check-only --all-defs
+calcit fix --workflow strict --verify
 calcit calcit.cirru js
 yarn vite build --base=./
 ```
