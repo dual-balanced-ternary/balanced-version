@@ -8,6 +8,21 @@
 
 ### Usages
 
+使用者注意：工具链配对正式 Calcit / `@calcit/procs` 0.30.0，挂载层使用正式
+Respo 0.16.120 / JS-FFI 0.2.3。版本实验仍由原 JS Web Component 管理，刷新仍
+恢复六条示例；DBT 算法、规范、JSON 导出和比较规则不变。
+
+Calcit 已退役没有业务消费者的 Reel/Store/updater 壳，以及旧 `workflow` key
+的定时保存和读写、Reel 调试监听。不会删除浏览器已有数据，也不把业务记录
+迁移到另一种持久化格式。旧代码中的 Store 断言/unsafe 随空壳移除，不新增
+Op/decoder/类型适配层。Calcit 入口明确为 JS/browser；开发先 `yarn compile`，
+再运行 `calcit -w calcit.cirru` 和 `yarn dev`，无需新增 process manager。
+
+安装单独执行 Caps/toolchain 检查；`yarn compile` 只生成 JS，不再隐式安装模块。
+CI 以全部定义和完整 strict/preflight 为门禁，保留原10项 Node测试和文档检查。
+原质量计数文件留作历史参考，不放宽预算，不把零 Calcit Dynamic/unsafe 当作
+JS 业务已被 Calcit 静态证明。COS 内建校验、共享 PR 预览和原 rsync 路径不变。
+
 To develop:
 
 ```bash

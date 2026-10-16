@@ -12,6 +12,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v4
 
@@ -29,6 +30,7 @@ jobs:
       uses: calcit-lang/setup-calcit@v1.5.0
       with:
         caps-version: 0.1.1
+        deps-file: deps.cirru
 
     - name: Verify published setup tools
       run: |
@@ -49,12 +51,8 @@ jobs:
       run: |
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
-        calcit calcit.cirru --check-only
-        calcit calcit.cirru analyze check-types --summary-only --format json
-        calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
-        calcit calcit.cirru analyze deprecated --summary-only --format json
-        calcit calcit.cirru analyze dynamic-methods
-        calcit calcit.cirru analyze quality --baseline config/calcit-quality.json
+        calcit --check-only --all-defs
+        calcit fix --workflow strict --verify
         calcit calcit.cirru docs format-md README.md --check
         calcit calcit.cirru docs check-md README.md --failures-only
 
