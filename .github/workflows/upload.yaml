@@ -27,18 +27,10 @@ jobs:
         corepack prepare yarn@4.12.0 --activate
         yarn --version
 
-    # Use the published setup-calcit release that installs standalone prebuilt caps.
-    - id: setup-calcit
-      uses: calcit-lang/setup-calcit@v1.5.0
+    - uses: calcit-lang/setup-calcit@v1.5.0
       with:
         caps-version: 0.1.1
         deps-file: deps.cirru
-
-    - name: Verify published setup tools
-      run: |
-        test "${{ steps.setup-calcit.outputs.version }}" = "$(calcit -v)"
-        test "${{ steps.setup-calcit.outputs.caps-version }}" = "0.1.1"
-        test "$(caps --version)" = "caps 0.1.1"
 
     - name: "load deps"
       run: caps --strict --ci && yarn install --immutable
@@ -51,10 +43,13 @@ jobs:
 
     - name: Validate Calcit snapshot and types
       run: |
+        set -euo pipefail
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
         calcit --check-only --all-defs
-        calcit fix --workflow strict --verify
+        report="$(calcit fix --workflow strict --verify --format json)"
+        printf '%s\n' "$report"
+        jq -e '.data.workflow.status? == "passed" and .diagnostics? == []' <<< "$report"
         calcit calcit.cirru docs format-md README.md --check
         calcit calcit.cirru docs check-md README.md --failures-only
 
@@ -77,7 +72,7 @@ jobs:
 
     - name: Upload static assets to COS
       if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
-      uses: worktools/cos-upload-action@a8222e494b880b775cb8fe1ce9cc974d3ffc84cf
+      uses: worktools/cos-upload-action@06d6027dcca6413c5936e04a9b6e9f0d5ef71ba0 # v1.2.0
       with:
         source-dir: dist
         bucket: ${{ secrets.COS_BUCKET }}
