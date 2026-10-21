@@ -8,9 +8,13 @@
 
 ### Usages
 
-使用者注意：工具链配对正式 Calcit / `@calcit/procs` 0.30.0，挂载层使用正式
-Respo 0.16.120 / JS-FFI 0.2.3。版本实验仍由原 JS Web Component 管理，刷新仍
+使用者注意：工具链配对已发布的 Calcit / `@calcit/procs` 0.30.1-alpha.5，挂载层使用正式
+Respo 0.16.123 / JS-FFI 0.2.4。版本实验仍由原 JS Web Component 管理，刷新仍
 恢复六条示例；DBT 算法、规范、JSON 导出和比较规则不变。
+
+正式 0.30.1 的跨平台 CLI/npm 配对发布尚未完整，因此固定明确的候选；不只升级
+其中一端。模块依赖仍使用正式 tag，不改 DBT 业务代码、页面持久化、共享 PR 预览、
+CDN 前缀或原 rsync 目标；不新增验证脚本，也不放宽原类型或测试门禁。
 
 Calcit 已退役没有业务消费者的 Reel/Store/updater 壳，以及旧 `workflow` key
 的定时保存和读写、Reel 调试监听。不会删除浏览器已有数据，也不把业务记录
