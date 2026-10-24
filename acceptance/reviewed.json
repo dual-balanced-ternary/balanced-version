@@ -1,0 +1,330 @@
+[
+  {
+    "code": [
+      "def",
+      "calcit-dirname",
+      "|"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.$meta/calcit-dirname",
+    "js_ffi": null,
+    "schema": null,
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "calcit-filename",
+      "|calcit.cirru"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.$meta/calcit-filename",
+    "js_ffi": null,
+    "schema": null,
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defcomp",
+      "comp-container",
+      [],
+      [
+        "create-element",
+        ":balanced-version-app",
+        [
+          "{}"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.comp.container/comp-container",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.schema/Component"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "def",
+      "dev?",
+      [
+        "=",
+        "|dev",
+        [
+          [
+            "get-env",
+            "|mode"
+          ],
+          ".unwrap-or",
+          "|release"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.config/dev?",
+    "js_ffi": null,
+    "schema": "'Bool",
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "main!",
+      [],
+      [
+        "println",
+        "|Running mode:",
+        [
+          "if",
+          "config/dev?",
+          "|dev",
+          "|release"
+        ]
+      ],
+      [
+        "when",
+        "config/dev?",
+        [
+          "load-console-formatter!"
+        ]
+      ],
+      [
+        "render-app!"
+      ],
+      [
+        "println",
+        "|App started."
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/main!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "mount-target",
+      [],
+      [
+        "option:unwrap",
+        [
+          "query-selector",
+          "|.app"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/mount-target",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'respo.dom/DomElement"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "reload!",
+      [],
+      [
+        "if",
+        [
+          "nil?",
+          "build-errors"
+        ],
+        [
+          "do",
+          [
+            "clear-cache!"
+          ],
+          [
+            "render-app!"
+          ],
+          [
+            "hud!",
+            "|ok~",
+            "|Ok"
+          ]
+        ],
+        [
+          "hud!",
+          "|error",
+          "build-errors"
+        ]
+      ],
+      "&unit"
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/reload!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  },
+  {
+    "code": [
+      "defn",
+      "render-app!",
+      [],
+      [
+        "render!",
+        [
+          "mount-target"
+        ],
+        [
+          "comp-container"
+        ],
+        [
+          "fn",
+          [
+            "_op"
+          ],
+          "&unit"
+        ]
+      ]
+    ],
+    "doc": "",
+    "examples": [],
+    "ffi": null,
+    "ffi_edn": null,
+    "id": "app.main/render-app!",
+    "js_ffi": null,
+    "schema": [
+      "{}",
+      [
+        ":kind",
+        ":fn"
+      ],
+      [
+        ":return",
+        "'Unit"
+      ],
+      [
+        ":args",
+        [
+          "[]"
+        ]
+      ],
+      [
+        ":features",
+        [
+          "#{}",
+          ":js-ffi"
+        ]
+      ]
+    ],
+    "tags": [],
+    "tests": []
+  }
+]

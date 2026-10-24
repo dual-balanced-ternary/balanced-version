@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - prepare/balanced-version-source031
   pull_request: {}
 
 permissions:
@@ -41,11 +42,14 @@ jobs:
     - name: Test DBT arithmetic and release lifecycle
       run: yarn test
 
+    - name: Prepare reviewed source transaction
+      run: node prepare-source.mjs
+
     - name: Validate Calcit snapshot and types
       run: |
         set -euo pipefail
         calcit calcit.cirru edit format
-        git diff --exit-code -- calcit.cirru
+        test "$(git hash-object calcit.cirru)" = "$(cat acceptance/snapshot-blob.txt)"
         calcit --check-only --all-defs
         report="$(calcit fix --workflow strict --verify --format json)"
         printf '%s\n' "$report"
@@ -71,7 +75,7 @@ jobs:
         yarn release
 
     - name: Upload static assets to COS
-      if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+      if: github.ref != 'refs/heads/prepare/balanced-version-source031' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
       uses: worktools/cos-upload-action@06d6027dcca6413c5936e04a9b6e9f0d5ef71ba0 # v1.2.0
       with:
         source-dir: dist
@@ -110,3 +114,13 @@ jobs:
     - name: Display status from deploy
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: echo "${{ steps.deploy.outputs.status }}"
+
+    - name: Preserve official migration and browser build
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: balanced-version-source-prepared
+        path: |
+          calcit.cirru
+          acceptance
+          dist
+        retention-days: 3
