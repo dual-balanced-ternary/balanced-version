@@ -9,13 +9,18 @@
 ### Usages
 
 使用者注意：工具链配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，挂载层使用正式
-Respo 0.16.124 / JS-FFI 0.2.5。需要同步 CLI/runtime、重新安装依赖并生成 JS，不混用旧 alpha。
+Respo 0.16.126 / JS-FFI 0.2.6。需要同步 CLI/runtime、重新安装依赖并生成 JS，不混用旧 alpha。
 版本实验仍由原 JS Web Component 管理，刷新仍
 恢复六条示例；DBT 算法、规范、JSON 导出和比较规则不变。
 
 模块依赖使用已发布的精确正式 tag；正式 Linux CI 不代表所有平台均有预编译 CLI 或均已验收。
 不改 DBT 业务代码、页面持久化、共享 PR 预览、
 CDN 前缀或原 rsync 目标；不新增验证脚本，也不放宽原类型或测试门禁。
+
+本轮只同步已发布的挂载层依赖，并将挂载节点的旧 `option:unwrap` 改为
+接收者 `.unwrap`。节点缺失仍报错，不补默认节点；开发时的页面错误提示 `hud!`
+保留。数学、版本生命周期、六条初始记录、比较及 JSON 导出逻辑不变。
+Snapshot 由正式 0.30.1 Linux CI 的受保护事务生成并逐定义核对；临时准备工具不进入项目。
 
 Calcit 已退役没有业务消费者的 Reel/Store/updater 壳，以及旧 `workflow` key
 的定时保存和读写、Reel 调试监听。不会删除浏览器已有数据，也不把业务记录
