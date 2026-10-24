@@ -45,7 +45,10 @@ jobs:
       run: |
         set -euo pipefail
         calcit calcit.cirru edit format
-        git diff --exit-code -- calcit.cirru
+        if ! git diff --quiet --exit-code -- calcit.cirru; then
+          echo '::error::calcit.cirru is not canonical; run the pinned Calcit edit format and commit its reviewed result.'
+          exit 1
+        fi
         calcit --check-only --all-defs
         report="$(calcit fix --workflow strict --verify --format json)"
         printf '%s\n' "$report"
