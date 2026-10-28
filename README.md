@@ -22,7 +22,8 @@ CI 保留全部定义、完整 strict/preflight、原 10 项 Node 测试和文�
 JS 业务仍由原测试保障，不将其描述成 Calcit 已静态证明。
 
 前端 PR 预览改为独立 PR/run/attempt 前缀，避免并发覆盖；COS 使用 action 内置校验，
-生产前缀与原 rsync 目录不变，不增加重复校验脚本或 process manager。
+PR 直接使用 COS 下的 index.html，不重复 rsync；生产前缀与原 rsync 目录不变，
+不增加重复校验脚本或 process manager。
 
 To develop:
 
