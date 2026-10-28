@@ -8,31 +8,21 @@
 
 ### Usages
 
-使用者注意：工具链配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，挂载层使用正式
-Respo 0.16.126 / JS-FFI 0.2.6。需要同步 CLI/runtime、重新安装依赖并生成 JS，不混用旧 alpha。
-版本实验仍由原 JS Web Component 管理，刷新仍
-恢复六条示例；DBT 算法、规范、JSON 导出和比较规则不变。
+使用者注意：工具链配对正式 Calcit CLI / `@calcit/procs` **0.31.0**，需要同步升级、
+重新安装依赖并生成 JS。挂载层使用已发布的 Respo **0.17.0-alpha.4** / JS-FFI **0.2.7**；
+Respo 仍是 alpha，不表示依赖图已全部稳定。
 
-模块依赖使用已发布的精确正式 tag；正式 Linux CI 不代表所有平台均有预编译 CLI 或均已验收。
-不改 DBT 业务代码、页面持久化、共享 PR 预览、
-CDN 前缀或原 rsync 目标；不新增验证脚本，也不放宽原类型或测试门禁。
+版本实验继续由原 JS Web Component 管理，刷新恢复六条示例；DBT 算法、规范、
+JSON 导出和比较规则不变。Calcit 仅补齐 Respo 要求的 dispatch-op Enum 合同，
+代表值不参与发送，不增加 Store、updater 或业务 decoder。页面错误提示 `hud!` 保留。
 
-本轮只同步已发布的挂载层依赖，并将挂载节点的旧 `option:unwrap` 改为
-接收者 `.unwrap`。节点缺失仍报错，不补默认节点；开发时的页面错误提示 `hud!`
-保留。数学、版本生命周期、六条初始记录、比较及 JSON 导出逻辑不变。
-Snapshot 由正式 0.30.1 Linux CI 的受保护事务生成并逐定义核对；临时准备工具不进入项目。
+源码只使用 `calcit.cirru` / `deps.cirru`。此前退役的 Reel/Store 壳及 `workflow`
+定时存档逻辑不恢复，也不读取或删除浏览器已有存档。
+CI 保留全部定义、完整 strict/preflight、原 10 项 Node 测试和文档检查。
+JS 业务仍由原测试保障，不将其描述成 Calcit 已静态证明。
 
-Calcit 已退役没有业务消费者的 Reel/Store/updater 壳，以及旧 `workflow` key
-的定时保存和读写、Reel 调试监听。不会删除浏览器已有数据，也不把业务记录
-迁移到另一种持久化格式。旧代码中的 Store 断言/unsafe 随空壳移除，不新增
-Op/decoder/类型适配层。Calcit 入口明确为 JS/browser；开发先 `yarn compile`，
-再运行 `calcit -w calcit.cirru` 和 `yarn dev`，无需新增 process manager。
-
-安装单独执行 Caps/toolchain 检查；`yarn compile` 只生成 JS，不再隐式安装模块。
-CI 以全部定义和完整 strict/preflight 为门禁，保留原10项 Node测试和文档检查。
-已删除未被当前门禁引用、且仍记录已退役 Reel 定义的旧质量计数文件；历史可从 Git 恢复。
-不放宽现有门禁，不把零 Calcit Dynamic/unsafe 当作
-JS 业务已被 Calcit 静态证明。COS 内建校验、共享 PR 预览和原 rsync 路径不变。
+前端 PR 预览改为独立 PR/run/attempt 前缀，避免并发覆盖；COS 使用 action 内置校验，
+生产前缀与原 rsync 目录不变，不增加重复校验脚本或 process manager。
 
 To develop:
 
@@ -69,7 +59,7 @@ https://github.com/dual-balanced-ternary/balanced-version
 1. 在仓库或组织配置 `COS_BUCKET`、`COS_SECRET_ID`、`COS_SECRET_KEY` 三个 Actions secret。当前存储桶地域是 `ap-shanghai`，公开读取入口是 `https://cos-sh.tiye.me/`。COS 凭据仅授予目标桶所需的上传权限；来自 fork 的 PR 不运行需要密钥的步骤。
 2. 构建前按目标路径设置 Vite base：生产环境为 `https://cos-sh.tiye.me/<owner>/<repo>/`，本项目的 PR 预览为 `https://cos-sh.tiye.me/<owner>/<repo>/pr/`。`prefix` 与公开 URL 必须对应同一目录，不能只改上传前缀而沿用旧 base。
 3. 使用正式 `v1.2.0` 上传 Action（工作流保留其精确 SHA pin），并传入 `source-dir: dist`、`bucket`、`region`、`prefix`、`public-base-url` 与三个 secret。Action 上传后会从公开 CDN 逐文件下载并比对字节数和 SHA-256，沿用默认 `verify-*` 参数，全部通过后才执行原有 rsync；项目不再复制远端验证脚本，COS 上传或公开读取失败也不会更新服务器上的 HTML。
-4. 保留生产和 PR 预览的独立路径。固定 `/pr/` 是本项目刻意提供的共享预览地址；并发 PR 可能覆盖这个地址。若只是验证上传能力、无需共享预览地址，改用 `<owner>/<repo>/pr/<pr-number>/<run-id>/` 隔离每次运行，并在 CDN 请求中加入 `?run=<run-id>` 避免缓存影响检查。长期使用运行级前缀时，应给旧对象设置存储桶生命周期清理策略。
+4. 保留生产和 PR 预览的独立路径。每次运行使用独立 PR/run/attempt 前缀，避免覆盖其他 PR 的预览。长期使用运行级前缀时，应给旧对象设置存储桶生命周期清理策略。
 
 验证顺序：先在同仓库 PR 中确认 Calcit 校验、构建、COS 上传和 CDN 读取全部成功，并检查 `dist/index.html` 的资源路径；合并后再检查 `main` 的生产前缀和原有服务器页面。不要仅凭上传命令成功就认为页面可用，也不要把 `dist/`、`js-out/` 等生成物提交到 Git。若出现 `AccessDenied`，先核对组织 secret 是否向该仓库开放、桶名是否包含 APPID、地域与前缀是否正确，再查看 COS 权限；若在上传前失败，应先修复原有构建，不能把失败归因于 COS。
 
