@@ -8,12 +8,13 @@
 
 ### Usages
 
-使用者注意：工具链配对正式 Calcit CLI / `@calcit/procs` **0.31.0**，需要同步升级、
-重新安装依赖并生成 JS。挂载层使用已发布的 Respo **0.17.0-alpha.4** / JS-FFI **0.2.7**；
-Respo 仍是 alpha，不表示依赖图已全部稳定。
+使用者注意：工具链同步到正式 Calcit CLI / `@calcit/procs` **0.32.1**，需要重新安装依赖并生成 JS。
+挂载层使用已发布的 Respo **0.17.1** / JS-FFI **0.2.9**，通过 Caps 严格解析。
+Yarn 同步为 4.18.0，新依赖解析统一等待 60 分钟，无单包年龄豁免；immutable 复用 lockfile 已有解析。
 
 版本实验继续由原 JS Web Component 管理，刷新恢复六条示例；DBT 算法、规范、
-JSON 导出和比较规则不变。Calcit 仅补齐 Respo 要求的 dispatch-op Enum 合同，
+JSON 导出和比较规则不变。本轮只通过官方 format 规范化类型表示，7 个定义完整查询视图保持一致。
+Calcit 保留 Respo 要求的 dispatch-op Enum 合同，
 代表值不参与发送，不增加 Store、updater 或业务 decoder。页面错误提示 `hud!` 保留。
 
 源码只使用 `calcit.cirru` / `deps.cirru`。此前退役的 Reel/Store 壳及 `workflow`
@@ -29,7 +30,7 @@ To develop:
 
 ```bash
 corepack enable
-corepack prepare yarn@4.12.0 --activate
+corepack prepare yarn@4.18.0 --activate
 yarn install --immutable
 caps --strict --ci
 caps verify --toolchain
@@ -59,7 +60,7 @@ https://github.com/dual-balanced-ternary/balanced-version
 
 1. 在仓库或组织配置 `COS_BUCKET`、`COS_SECRET_ID`、`COS_SECRET_KEY` 三个 Actions secret。当前存储桶地域是 `ap-shanghai`，公开读取入口是 `https://cos-sh.tiye.me/`。COS 凭据仅授予目标桶所需的上传权限；来自 fork 的 PR 不运行需要密钥的步骤。
 2. 构建前按目标路径设置 Vite base：生产环境为 `https://cos-sh.tiye.me/<owner>/<repo>/`，本项目的 PR 预览为 `https://cos-sh.tiye.me/<owner>/<repo>/pr/`。`prefix` 与公开 URL 必须对应同一目录，不能只改上传前缀而沿用旧 base。
-3. 使用正式 `v1.2.0` 上传 Action（工作流保留其精确 SHA pin），并传入 `source-dir: dist`、`bucket`、`region`、`prefix`、`public-base-url` 与三个 secret。Action 上传后会从公开 CDN 逐文件下载并比对字节数和 SHA-256，沿用默认 `verify-*` 参数，全部通过后才执行原有 rsync；项目不再复制远端验证脚本，COS 上传或公开读取失败也不会更新服务器上的 HTML。
+3. 使用精确正式 `v1.2.0` 上传 Action（维护者已接受 tag 可移动风险），并传入 `source-dir: dist`、`bucket`、`region`、`prefix`、`public-base-url` 与三个 secret。Action 上传后会从公开 CDN 逐文件下载并比对字节数和 SHA-256，沿用默认 `verify-*` 参数，全部通过后才执行原有 rsync；项目不再复制远端验证脚本，COS 上传或公开读取失败也不会更新服务器上的 HTML。
 4. 保留生产和 PR 预览的独立路径。每次运行使用独立 PR/run/attempt 前缀，避免覆盖其他 PR 的预览。长期使用运行级前缀时，应给旧对象设置存储桶生命周期清理策略。
 
 验证顺序：先在同仓库 PR 中确认 Calcit 校验、构建、COS 上传和 CDN 读取全部成功，并检查 `dist/index.html` 的资源路径；合并后再检查 `main` 的生产前缀和原有服务器页面。不要仅凭上传命令成功就认为页面可用，也不要把 `dist/`、`js-out/` 等生成物提交到 Git。若出现 `AccessDenied`，先核对组织 secret 是否向该仓库开放、桶名是否包含 APPID、地域与前缀是否正确，再查看 COS 权限；若在上传前失败，应先修复原有构建，不能把失败归因于 COS。

@@ -22,7 +22,7 @@ yarn install --immutable
 caps verify --toolchain
 yarn test
 calcit calcit.cirru edit format
-git diff --exit-code -- calcit.cirru
+git diff --exit-code --quiet -- calcit.cirru
 calcit --check-only --all-defs
 calcit fix --workflow strict --verify
 calcit calcit.cirru js
