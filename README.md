@@ -8,12 +8,14 @@
 
 ### Usages
 
-使用者注意：工具链同步到正式 Calcit CLI / `@calcit/procs` **0.32.1**，需要重新安装依赖并生成 JS。
+使用者注意：工具链同步到正式 Calcit CLI / `@calcit/procs` **0.34.1**，需要重新安装依赖并生成 JS。
 挂载层使用已发布的 Respo **0.17.1** / JS-FFI **0.2.9**，通过 Caps 严格解析。
 Yarn 同步为 4.18.0，新依赖解析统一等待 60 分钟，无单包年龄豁免；immutable 复用 lockfile 已有解析。
 
 版本实验继续由原 JS Web Component 管理，刷新恢复六条示例；DBT 算法、规范、
-JSON 导出和比较规则不变。本轮只通过官方 format 规范化类型表示，7 个定义完整查询视图保持一致。
+JSON 导出和比较规则不变。本轮只更新工具链与配对 lock，官方 formatter 无需改写 Snapshot，
+7 个定义完整查询视图保持一致。已逐项检查这些 Calcit 挂载定义，没有可用有限 union 替代的业务 Dynamic；
+DBT 的 BigInt 运算与版本模型仍属于 JavaScript，不宣称已迁入 Calcit 类型系统。
 Calcit 保留 Respo 要求的 dispatch-op Enum 合同，
 代表值不参与发送，不增加 Store、updater 或业务 decoder。页面错误提示 `hud!` 保留。
 
