@@ -31,11 +31,10 @@
         :code $ quote $ ns app.config
     'app.main $ %{} 'FileEntry
       :defs $ {}
-        'DispatchOp $ %{} 'CodeEntry
-          :doc "|Respo dispatch slot 的 Enum 合同；页面交互由 Web Component 管理，此代表值不会发送。"
-          :code $ quote $ def DispatchOp (:: :unhandled)
+        'DispatchOp $ %{} 'CodeEntry (:doc "|Respo 挂载层的名义操作类型。业务交互由 Web Component 管理。")
+          :code $ quote $ defenum DispatchOp (:unhandled)
           :examples $ []
-          :schema $ quote Enum
+          :schema $ quote EnumDef
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
