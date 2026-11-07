@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |app.main/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.main/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {} $ 'comp-container
