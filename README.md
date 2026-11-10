@@ -8,7 +8,7 @@
 
 ### Usages
 
-使用者注意：工具链同步到正式 Calcit CLI / `@calcit/procs` **0.38.0**，需要重新安装依赖并生成 JS。
+使用者注意：工具链同步到正式 Calcit CLI / `@calcit/procs` **0.40.0**，需要重新安装依赖并生成 JS。
 挂载层使用已发布的 Respo **0.19.5** / JS-FFI **0.2.13**，通过 Caps 严格解析。
 Yarn 同步为 4.18.0，新依赖解析统一等待 60 分钟，无单包年龄豁免；immutable 复用 lockfile 已有解析。
 
